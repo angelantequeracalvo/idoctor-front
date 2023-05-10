@@ -1,0 +1,73 @@
+<ul class="patients">
+    <li *ngFor="let patient of patients">
+      <button [class.selected]="patient === selectedPatient" type="button" (click)="onSelect(patient)">
+        <span class="badge">{{patient.id}}</span>
+        <span class="name">{{patient.name}}</span>
+        <button type="button" class="delete" title="delete patient"
+        (click)="deletePatient(patient)">x</button>
+      </button>
+    </li>
+  </ul>
+  
+  <div *ngIf="selectedPatient">
+    <hr>
+    <form [formGroup]="patientFormEdit">
+    <h2>{{selectedPatient.name | uppercase}} Details</h2>
+    <div>id: {{selectedPatient.id}}</div>
+    
+    <div>surname:
+      <input id="new-patient"  required #patientSurname2 formControlName = "surname" value="{{selectedPatient.surname}}"/>
+      <div *ngIf="patientFormEdit.controls['surname'].invalid && (patientFormEdit.controls['surname'].dirty || patientFormEdit.controls['surname'].touched)" class="alert alert-danger">
+        <p id="required">surname is required.</p>
+    </div> 
+      </div>
+
+    <div>name:
+    <input id="new-patient"  required #patientName2 formControlName = "name" value="{{selectedPatient.name}}"/>
+    <div *ngIf="patientFormEdit.controls['name'].invalid && (patientFormEdit.controls['name'].dirty || patientFormEdit.controls['name'].touched)" class="alert alert-danger">
+      <p id="required">name is required.</p>
+  </div> 
+    </div>
+
+   <div>age:
+    <input id="new-patient" type="number" required #patientAge2 formControlName = "age" value="{{selectedPatient.age}}"/>
+    <div *ngIf="patientFormEdit.controls['age'].invalid && (patientFormEdit.controls['age'].dirty || patientFormEdit.controls['age'].touched)" class="alert alert-danger">
+      <p id="required">age is required.</p>
+  </div> 
+    </div>
+
+    <div>dni:
+      <input id="new-patient"  required #patientDni2 formControlName = "dni" value="{{selectedPatient.dni}}"/>
+      <div *ngIf="patientFormEdit.controls['dni'].invalid && (patientFormEdit.controls['dni'].dirty || patientFormEdit.controls['dni'].touched)" class="alert alert-danger">
+        <p id="required">dni is required.</p>
+    </div> 
+      </div>
+  </form>
+  <button type="submit" [disabled] ="!patientFormEdit.valid" class="add-button" (click)="editPatient(selectedPatient.id, patientName2.value, patientSurname2.value, patientAge2.valueAsNumber, patientDni2.value)">
+    edit patient
+  </button>
+  <br>
+  </div>
+    <hr>
+
+    <form [formGroup]= "patientForm">
+    <label for="new-patient">Patient name: </label>
+    <input id="new-patient" required #patientName formControlName = "name"/>
+    <div *ngIf="patientForm.controls['name'].invalid && (patientForm.controls['name'].dirty || patientForm.controls['name'].touched)" class="alert alert-danger">
+      <p id="required">name is required.</p>
+    </div>
+    <br>
+    <label for="new-patient">Patient surname: </label>
+    <input id="new-patient" required #patientSurname formControlName = "surname"/>
+    <br>
+    <label for="new-patient">Patient age: </label>
+    <input id="new-patient" type="number" required #patientAge formControlName ="age"/>
+    <br>
+    <label for="new-patient">Patient dni: </label>
+    <input id="new-patient" required #patientDni formControlName = "dni"/>
+    <br>
+    </form>
+    
+    <button type="submit" [disabled] ="!patientForm.valid" class="add-button" (click)="addPatient(patientName.value, patientSurname.value,  patientAge.valueAsNumber, patientDni.value); patientName.value=''; patientSurname.value='';  patientAge.value=''; patientDni.value=''">
+      Add patient
+    </button>

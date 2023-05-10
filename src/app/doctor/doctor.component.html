@@ -1,0 +1,65 @@
+<ul class="doctors">
+    <li *ngFor="let doctor of doctors">
+      <button [class.selected]="doctor === selectedDoctor" type="button" (click)="onSelect(doctor)">
+        <span class="badge">{{doctor.id}}</span>
+        <span class="name">{{doctor.name}}</span>
+        <button type="button" class="delete" title="delete doctor"
+        (click)="deleteDoctor(doctor)">x</button>
+      </button>
+    </li>
+  </ul>
+  
+  <div *ngIf="selectedDoctor">
+    <hr>
+    <form [formGroup]="doctorFormEdit">
+    <h2>{{selectedDoctor.name | uppercase}} Details</h2>
+    <div>id: {{selectedDoctor.id}}</div>
+    
+    <div>surname:
+      <input id="new-doctor"  required #doctorSurname2 formControlName = "surname"/>
+      <div *ngIf="doctorFormEdit.controls['surname'].invalid && (doctorFormEdit.controls['surname'].dirty || doctorFormEdit.controls['surname'].touched)" class="alert alert-danger">
+        <p id="required">surname is required.</p>
+    </div> 
+      </div>
+
+    <div>name:
+    <input id="new-doctor"  required #doctorName2 formControlName = "name" />
+    <div *ngIf="doctorFormEdit.controls['name'].invalid && (doctorFormEdit.controls['name'].dirty || doctorFormEdit.controls['name'].touched)" class="alert alert-danger">
+      <p id="required">name is required.</p>
+  </div> 
+    </div>
+
+   <div>age:
+    <input id="new-doctor" type="number" required #doctorAge2 formControlName = "age"/>
+    <div *ngIf="doctorFormEdit.controls['age'].invalid && (doctorFormEdit.controls['age'].dirty || doctorFormEdit.controls['age'].touched)" class="alert alert-danger">
+      <p id="required">age is required.</p>
+  </div> 
+    </div>
+  </form>
+  <button type="submit" [disabled] ="!doctorFormEdit.valid" class="add-button" (click)="editDoctor(selectedDoctor.id, doctorName2.value, doctorSurname2.value, doctorAge2.valueAsNumber)">
+    edit doctor
+  </button>
+  <br>
+  </div>
+    <hr>
+
+    <form [formGroup]= "doctorForm">
+    <label for="new-doctor">Doctor name: </label>
+    <input id="new-doctor" required #doctorName formControlName = "name"/>
+    <div *ngIf="doctorForm.controls['name'].invalid && (doctorForm.controls['name'].dirty || doctorForm.controls['name'].touched)" class="alert alert-danger">
+      <p id="required">name is required.</p>
+    </div>
+    <br>
+    <label for="new-person">Doctor surname: </label>
+    <input id="new-doctor" required #doctorSurname formControlName = "surname"/>
+    <br>
+    <label for="new-person">Doctor age: </label>
+    <input id="new-doctor" type="number" required #doctorAge formControlName ="age"/>
+    </form>
+    <br>
+    <button type="submit" [disabled] ="!doctorForm.valid" class="add-button" (click)="addDoctor(doctorName.value, doctorSurname.value,  doctorAge.valueAsNumber); doctorName.value=''; doctorSurname.value='';  doctorAge.value=''">
+      Add doctor
+    </button>
+  
+  
+  
