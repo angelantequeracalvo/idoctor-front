@@ -1,11 +1,1 @@
 <app-navigation-bar></app-navigation-bar>
-<select [(NgModel)]="selectedDoctorId">
-    <option *nfFor="let doctor of doctors"[value]="doctor.id>{{doctor.name}}"</option>
-    </select>
-
-    <select [(NgModel)]="selectedPatientId">
-    <option *nfFor="let patient of patients"[value]="patient.id>{{patient.name}}"</option>
-    </select>
-
-    <p>Doctor selecionado:{{selectedDoctorId}}</p>
-    <p>Patient selecionado:{{selectedPatientId}}</p>

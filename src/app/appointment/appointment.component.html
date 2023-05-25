@@ -1,78 +1,33 @@
-<mat-form-field appearance="fill">
-    <mat-label>Appointment</mat-label>
-    <mat-select>
-      <mat-option *ngFor="let appointment of appointments" [value]="appointment.id" (onSelectionChange)="changeAppointment(appointment.id)">
-        {{appointment.id}}
+ <form [formGroup]= "appointmentForm">
+  <mat-form-field>
+    <mat-label>Doctor</mat-label>
+    <mat-select formControlName="doctor">
+      <mat-option *ngFor="let doctor of doctors" [value]="doctor">
+        {{doctor.name}}
       </mat-option>
     </mat-select>
   </mat-form-field>
-
-  <ul class="appointments">
-    <li *ngFor="let appointment of appointments">
-      <button [class.selected]="appointment === selectedAppointment" type="button" (click)="onSelect(appointment)">
-        <span class="badge">{{appointment.id}}</span>
-        <button type="button" class="delete" title="delete appointment"
-        (click)="deleteAppointment(appointment)">x</button>
-      </button>
-    </li>
-  </ul>
-   <div *ngIf="selectedAppointment">
-    <hr>
-    <form [formGroup]="appointmentFormEdit">
-      <h2>{{selectedAppointment.id?.toString()}} Details</h2>
-      <div>Id: {{selectedAppointment.id}}</div>
-      <div>Doctor:
-        <input id="input-form" formControlName="doctor" required/>
-        <div *ngIf="isValidEdit('doctor')" class="alert alert-danger">
-          <p id="required">Doctor is required.</p>
-        </div>
-      </div>
-      <div>Patient:
-        <input id="input-form" formControlName="patient" required/>
-        <div *ngIf="isValidEdit('patient')" class="alert alert-danger">
-          <p id="required">Patient is required.</p>
-        </div>
-      </div>
-      <div>AppointmentDate:
-        <input id="input-form" formControlName="appointmentDate" required/>
-        <div *ngIf="isValidEdit('appointment Date')" class="alert alert-danger">
-          <p id="required">appointment Date is required.</p>
-        </div>
-      </div>
-      <button type="submit" [disabled]="!appointmentFormEdit.valid" class="add-button" (click)="editAppointment()">
-        Edit Appointment
-      </button>
-    </form>
-    <br>
-  </div>
-   <hr>
-  <div>
-    <form [formGroup]="appointmentForm">
-      <label for="new-Appointment">Doctor id: </label>
-      <input id="new-Appointment" formControlName="id" required />
-      <div *ngIf="isValid('id')" class="alert alert-danger">
-        <p id="required">Id is required.</p>
-      </div>
-      <label for="new-Appointment">Patient id: </label>
-      <input id="new-Appointment" formControlName="id" required />
-      <div *ngIf="isValid('id')" class="alert alert-danger">
-        <p id="required">Id is required.</p>
-      </div>
-      <label for="new-Appointment">Appointment Date: </label>
-      <input id="new-Appointment" formControlName="date" required />
-      <div *ngIf="isValid('date')" class="alert alert-danger">
-        <p id="required">Appointment Date is required.</p>
-      </div>
-      <mat-form-field appearance="fill">
-      <mat-label>Appointment</mat-label>
-      <mat-select>
-        <mat-option *ngFor="let appointment of appointments" [value]="appointment.id" (onSelectionChange)="changeAppointment(appointment.id)">
-          {{appointment.id}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>  
-    <button type="submit" [disabled]="!appointmentForm.valid" class="add-button" (click)="addAppointment()">
-      Add Appointment
-    </button>
+  <br>
+  <mat-form-field>
+    <mat-label>Patient</mat-label>
+    <mat-select formControlName="patient">
+      <mat-option *ngFor="let patient of patients" [value]="patient">
+        {{patient.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>AppointmentDate</mat-label>
+    <input matInput [matDatepicker]="picker" formControlName="appointmentDate">
+    <mat-hint>MM/DD/YYYY</mat-hint>
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
   </form>
-  </div>
+  <br>
+  <button type="submit" [disabled] ="!appointmentForm.valid" class="add-button" (click)="addAppointment()">
+    Add doctor
+  </button>
+
+
+

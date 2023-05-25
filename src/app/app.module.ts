@@ -17,7 +17,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
+import { ListAppointmentComponent } from './list-appoinment/list-appoinment.component';
+import { MatTableModule } from '@angular/material/table'
+import {  MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -26,6 +32,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     PatientComponent,
     AppointmentComponent,
     NavigationBarComponent,
+    ListAppointmentComponent,
     
     
   ],
@@ -41,11 +48,17 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatSlideToggleModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTableModule,
+
     BrowserAnimationsModule
   ],
   
-  providers: [HttpClient],
+  providers: [HttpClient,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,6 +1,6 @@
 <ul class="patients">
     <li *ngFor="let patient of patients">
-      <button [class.selected]="patient === selectedPatient" type="button" (click)="onSelect(patient)">
+      <button [class.selected]="patient === selectedPatient" class="recuadro" type="button" (click)="onSelect(patient)">
         <span class="badge">{{patient.id}}</span>
         <span class="name">{{patient.name}}</span>
         <button type="button" class="delete" title="delete patient"

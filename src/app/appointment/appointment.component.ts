@@ -2,8 +2,18 @@ import { Component } from '@angular/core';
 import{FormControl,FormGroup} from "@angular/forms"
 import { AppointmentService } from './appointment.service';
 import { Appointment } from './appointment';
+import { Doctor } from '../doctor/doctor';
+import { Patient } from '../patient/patient';
+import { DatePipe } from '@angular/common';
+import { DoctorService } from '../doctor/doctor.service';
+import { PatientService } from '../patient/patient.service';
 
 
+
+interface Option{
+  id:number;
+  name:string;
+}
 
 @Component({
   selector: 'app-appointment',
@@ -14,6 +24,7 @@ export class AppointmentComponent  {
   appointments: any=[]
   selectedAppointment?: Appointment;
   appointmentId?: number;
+  datePicked: any;
 
   appointmentForm= new FormGroup({
   patient: new FormControl(""),
@@ -29,10 +40,23 @@ export class AppointmentComponent  {
     appointmentDate: new FormControl(""),
   });
 
-  constructor(private appointmentService:AppointmentService){}
+  doctors:Option[]=[]
+   
+ 
+ 
+   patients:Option[]=[
+     
+    ];
+ 
+
+  constructor(private appointmentService:AppointmentService,private datepipe: DatePipe, private doctorService:DoctorService, private patientService:PatientService){
+    
+  }
 
   ngOnInit(): void {
     this.getAppointment();
+    this.doctorService.findAll().subscribe(doctors => {this.doctors = doctors})
+    this.patientService.findAll().subscribe(patients => {this.patients = patients})
   }
 
   getAppointment()
@@ -56,18 +80,13 @@ export class AppointmentComponent  {
     
     if (!this.appointmentForm.get('doctor')?.value && !this.appointmentForm.get('patient')?.value && !this.appointmentForm.get('appointmentDate')?.value) { return; }
     const appointmentCreate:Appointment ={
-      doctor: this.appointmentForm.get('doctor')?.value as unknown as number,
-      patient: this.appointmentForm.get('patient')?.value  as unknown as number,
-      appointmentDate:this.appointmentForm.get('appointmentDate')?.value as unknown as Date,
+      doctor: this.appointmentForm.get('doctor')?.value as unknown as Doctor,
+      patient: this.appointmentForm.get('patient')?.value  as unknown as Patient,
+      appointmentDate: this.datepipe.transform(this.appointmentForm.get('appointmentDate')?.value as unknown as Date, 'dd/MM/yyyy') ||''
+     
     }
-     this.appointmentService.saveAppointment(appointmentCreate)
-
-      .subscribe(appointment => {
-        this.appointments.push(appointment);
-        this.appointmentForm.reset();
-      });
+     this.appointmentService.saveAppointment(appointmentCreate);
 }
-
 
   deleteAppointment(appointment:Appointment): void{
     this.appointments = this.appointments.filter((f:Appointment) => f !== appointment);
@@ -80,9 +99,9 @@ export class AppointmentComponent  {
     const id = this.appointmentFormEdit.get('id')?.value as unknown as number;
   const appointmentEdit:Appointment ={
     id,
-    doctor: this.appointmentFormEdit.get('doctor')?.value as unknown as number,
-    patient: this.appointmentFormEdit.get('patient')?.value  as unknown as number,
-    appointmentDate:this.appointmentFormEdit.get('appointmentDate')?.value as unknown as Date,
+    doctor: this.appointmentFormEdit.get('doctor')?.value as unknown as Doctor,
+    patient: this.appointmentFormEdit.get('patient')?.value  as unknown as Patient,
+    appointmentDate: this.datepipe.transform(this.appointmentFormEdit.get('appointmentDate')?.value as unknown as Date, 'dd/MM/yyyy') ||''
     }
     this.appointmentService.editAppointment(id,appointmentEdit)
 
@@ -97,6 +116,11 @@ export class AppointmentComponent  {
   }
   isValid(input:string){
     return !this.appointmentForm.get(input)?.valid;
+  }
+
+  public onDate(event: any): void {
+    this.datePicked = event;
+    
   }
 
   onSelect(appointment:Appointment): void {

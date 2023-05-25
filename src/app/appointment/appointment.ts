@@ -1,7 +1,10 @@
+import { Doctor } from "../doctor/doctor";
+import { Patient } from "../patient/patient";
+
 export interface Appointment {
     id?: number;
-    doctor: number;
-    patient: number;
-    appointmentDate:Date;
+    doctor: Doctor;
+    patient: Patient;
+    appointmentDate:string;
   }
   

@@ -23,8 +23,8 @@ export class AppointmentService {
     return this.http.get(this.url+'/'+id);
   }
 
-  saveAppointment(appointment:Appointment):Observable<any> {
-    return this.http.post(this.url, appointment);
+  saveAppointment(appointment:Appointment) {
+    this.http.post(this.url, appointment).subscribe();
   }
 
   editAppointment(id:number, appointment: Appointment):Observable<any> {
